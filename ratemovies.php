@@ -31,55 +31,89 @@ if(empty($_SESSION['userid'])){
 		<form name="form" action="ratemovies.php" method="post">
     		<input id = "search_box" name = "search_box" placeholder ="Type Search Query Here" type="text" autofocus/>
     		 <input id = "search-icon" value="Submit" type="image" name="btn" src="search-icon.png"/>
+    	<br>
+    	          
+          <input type = "radio" name = "search_type" value = "Movie" checked >
+          By Movie Name 
+          <input type = "radio" name = "search_type" value = "Genre" >
+    	  By Genre
+
         </form>
 	</div>
 
 	<?php
-	$conn = new mysqli("localhost","root","recommender","majorproject");
+	$conn = new mysqli("localhost","root","harshit25","majorproject");
 
 	if(isset($_POST['btn']))
 	{
-		if(strlen($_POST['search_box']) <=2){
+		if(strlen($_POST['search_box']) <=2)
+		{
 			echo"<script>alert('The length of the search query is too less');</script>";
 		}
 
-		else
+		else if(isset($_POST['search_type']))
 		{	
-
-			$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
-			
-			$sql = "SELECT moviename FROM moviedata";
-			$result = $conn->query($sql); 
-			$row = mysqli_fetch_array($result);
-			$flag = 0;
-
-			if (strpos(strtolower($row["moviename"]), strtolower($search_term)) !== false) {
-    				echo $row["moviename"].'<br>';
-    				$flag = 1;
-				}
-			while($row = $result->fetch_assoc()) {
+			if($_POST['search_type']=='Movie')
+			{
+				$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
+				$sql = "SELECT moviename FROM moviedata ";
+				$result = $conn->query($sql); 
+				$row = mysqli_fetch_array($result);
+				$flag = 0;
 
 				if (strpos(strtolower($row["moviename"]), strtolower($search_term)) !== false) {
-    				echo $row["moviename"].'<br>';
-    				$flag = 1;
-				}
+	    				echo $row["moviename"].'<br>';
+	    				$flag = 1;
+					}
+				while($row = $result->fetch_assoc()) {
 
-    		}
+					if (strpos(strtolower($row["moviename"]), strtolower($search_term)) !== false) {
+	    				echo $row["moviename"].'<br>';
+	    				$flag = 1;
+					}
+
+	    		}
 
 
-    		if($flag==0){
-    		echo"<script>alert('No movies found!');</script>";
-    		}
+	    		if($flag==0){
+	    		echo"<script>alert('No movies found!');</script>";
+	    		}
 
+			}
+
+			else
+			{
+				$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
+				$sql = "SELECT moviename, genre FROM moviedata";
+				$result = $conn->query($sql); 
+				$row = mysqli_fetch_array($result);
+				$flag = 0;
+
+				if (strpos(strtolower($row["genre"]), strtolower($search_term)) !== false) {
+	    				echo $row["moviename"].'<br>';
+	    				$flag = 1;
+					}
+				while($row = $result->fetch_assoc()) {
+
+					if (strpos(strtolower($row["genre"]), strtolower($search_term)) !== false) {
+	    				echo $row["moviename"].'<br>';
+	    				$flag = 1;
+					}
+
+	    		}
+
+
+	    		if($flag==0){
+	    		echo"<script>alert('No movies found!');</script>";
+	    		}
+			}
+			
 
 		}
+
 	}
 
 	$conn->close();
-
-
 	?>
-
-
 	</body>
 </html>
