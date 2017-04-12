@@ -1,6 +1,6 @@
 <?php
 $conn = new mysqli("localhost", "root", "harshit25", "majorproject");
-
+        //https://www.w3schools.com/sql/sql_alter.asp
 	$sql = "SELECT * FROM ratings";
 	
 	$result = $conn->query($sql); 
