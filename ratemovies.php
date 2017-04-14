@@ -56,7 +56,7 @@ if(empty($_SESSION['userid'])){
 	</div>
 
 	<?php
-	$conn = new mysqli("localhost","root","harshit25","majorproject");
+	$conn = new mysqli("localhost","root","recommender","majorproject");
 
 	if(isset($_POST['btn']))
 	{	
@@ -76,7 +76,10 @@ if(empty($_SESSION['userid'])){
 				echo '<table align="center" border="1"><tr><td style="text-align:center;"><b>Movie Name</b></td><td><b>Average Rating</b></td>
 				<td><b>Number of Ratings</b></td></tr>';
 
-				$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
+				$search_term = $_POST["search_box"];
+				//upar waley mein mysqli_real_escape_string nahi lena hai Mummy's ko search nahi karega
+				
+
 				$sql = "SELECT moviename, no_of_users_rated, avg_rating FROM moviedata ORDER BY avg_rating DESC, no_of_users_rated DESC";
 				$result = $conn->query($sql); 
 				$row = mysqli_fetch_array($result);
@@ -85,7 +88,6 @@ if(empty($_SESSION['userid'])){
 				//echo '<td>' . $movie_array[$x] . '</td>';
 				//echo '<td>' . $rating_array[$x] . '</td>';
 				//echo '</tr>';
-
 				if (strpos(strtolower($row["moviename"]), strtolower($search_term)) !== false) {
 					    echo '<tr>';
 					    echo '<td>' . $row["moviename"] . '</td>';
