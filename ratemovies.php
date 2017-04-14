@@ -46,9 +46,7 @@ if(empty($_SESSION['userid'])){
 
 	if(isset($_POST['btn']))
 	{	
-		echo '<table align="center" border="1"><tr><td style="text-align:center;"><b>Movie Name</b></td><td><b>Average Rating</b></td>
-		<td><b>Number of Ratings</b></td></tr>';
-
+		
 
 		if(strlen($_POST['search_box']) <=2)
 		{
@@ -59,7 +57,10 @@ if(empty($_SESSION['userid'])){
 		else if(isset($_POST['search_type']))
 		{	
 			if($_POST['search_type']=='Movie')
-			{
+			{	
+				echo '<table align="center" border="1"><tr><td style="text-align:center;"><b>Movie Name</b></td><td><b>Average Rating</b></td>
+				<td><b>Number of Ratings</b></td></tr>';
+
 				$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
 				$sql = "SELECT moviename, no_of_users_rated, avg_rating FROM moviedata ORDER BY avg_rating DESC, no_of_users_rated DESC";
 				$result = $conn->query($sql); 
@@ -92,7 +93,7 @@ if(empty($_SESSION['userid'])){
 
 	    		}
 
-
+	    		echo '</table>';
 	    		if($flag==0){
 	    		echo"<script>alert('No movies found!');</script>";
 	    		}
@@ -100,7 +101,10 @@ if(empty($_SESSION['userid'])){
 			}
 
 			else
-			{
+			{	
+				echo '<table align="center" border="1"><tr><td style="text-align:center;"><b>Movie Name</b></td><td><b>Average Rating</b></td>
+					<td><b>Number of Ratings</b></td></tr>';
+
 				$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
 				$sql = "SELECT moviename, genre, no_of_users_rated, avg_rating FROM moviedata  ORDER BY avg_rating DESC, no_of_users_rated DESC";
 				$result = $conn->query($sql); 
@@ -132,9 +136,10 @@ if(empty($_SESSION['userid'])){
 	    		if($flag==0){
 	    		echo"<script>alert('No movies found!');</script>";
 	    		}
+	    		echo '</table>';
+
 			}
 
-			    	echo '</table>';
 
 			
 
