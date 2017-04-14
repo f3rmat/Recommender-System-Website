@@ -45,30 +45,48 @@ if(empty($_SESSION['userid'])){
 	$conn = new mysqli("localhost","root","harshit25","majorproject");
 
 	if(isset($_POST['btn']))
-	{
+	{	
+		echo '<table align="center" border="1"><tr><td style="text-align:center;"><b>Movie Name</b></td><td><b>Average Rating</b></td>
+		<td><b>Number of Ratings</b></td></tr>';
+
+
 		if(strlen($_POST['search_box']) <=2)
 		{
 			echo"<script>alert('The length of the search query is too less');</script>";
 		}
 
+		
 		else if(isset($_POST['search_type']))
 		{	
 			if($_POST['search_type']=='Movie')
 			{
 				$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
-				$sql = "SELECT moviename FROM moviedata ";
+				$sql = "SELECT moviename, no_of_users_rated, avg_rating FROM moviedata ORDER BY avg_rating DESC, no_of_users_rated DESC";
 				$result = $conn->query($sql); 
 				$row = mysqli_fetch_array($result);
 				$flag = 0;
+				//echo '<tr>';
+				//echo '<td>' . $movie_array[$x] . '</td>';
+				//echo '<td>' . $rating_array[$x] . '</td>';
+				//echo '</tr>';
 
 				if (strpos(strtolower($row["moviename"]), strtolower($search_term)) !== false) {
-	    				echo $row["moviename"].'<br>';
+					    echo '<tr>';
+					    echo '<td>' . $row["moviename"] . '</td>';
+					    echo '<td>' . $row["avg_rating"] . '</td>';
+					    echo '<td>' . $row['no_of_users_rated'] . '</td>';
+					    echo '</tr>';
+	    				//echo $row["moviename"].'<br>';
 	    				$flag = 1;
 					}
 				while($row = $result->fetch_assoc()) {
 
 					if (strpos(strtolower($row["moviename"]), strtolower($search_term)) !== false) {
-	    				echo $row["moviename"].'<br>';
+	    				echo '<tr>';
+					    echo '<td>' . $row["moviename"] . '</td>';
+					    echo '<td>' . $row["avg_rating"] . '</td>';
+					    echo '<td>' . $row['no_of_users_rated'] . '</td>';
+					    echo '</tr>';
 	    				$flag = 1;
 					}
 
@@ -84,19 +102,27 @@ if(empty($_SESSION['userid'])){
 			else
 			{
 				$search_term = mysqli_real_escape_string($conn, $_POST['search_box']);
-				$sql = "SELECT moviename, genre FROM moviedata";
+				$sql = "SELECT moviename, genre, no_of_users_rated, avg_rating FROM moviedata  ORDER BY avg_rating DESC, no_of_users_rated DESC";
 				$result = $conn->query($sql); 
 				$row = mysqli_fetch_array($result);
 				$flag = 0;
 
 				if (strpos(strtolower($row["genre"]), strtolower($search_term)) !== false) {
-	    				echo $row["moviename"].'<br>';
+	    				echo '<tr>';
+					    echo '<td>' . $row["moviename"] . '</td>';
+					    echo '<td>' . $row["avg_rating"] . '</td>';
+					    echo '<td>' . $row['no_of_users_rated'] . '</td>';
+					    echo '</tr>';
 	    				$flag = 1;
 					}
 				while($row = $result->fetch_assoc()) {
 
 					if (strpos(strtolower($row["genre"]), strtolower($search_term)) !== false) {
-	    				echo $row["moviename"].'<br>';
+	    				echo '<tr>';
+					    echo '<td>' . $row["moviename"] . '</td>';
+					    echo '<td>' . $row["avg_rating"] . '</td>';
+					    echo '<td>' . $row['no_of_users_rated'] . '</td>';
+					    echo '</tr>';
 	    				$flag = 1;
 					}
 
@@ -107,6 +133,9 @@ if(empty($_SESSION['userid'])){
 	    		echo"<script>alert('No movies found!');</script>";
 	    		}
 			}
+
+			    	echo '</table>';
+
 			
 
 		}
