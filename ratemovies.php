@@ -29,7 +29,21 @@ if(empty($_SESSION['userid'])){
 
 	<div id="search_div">
 		<form name="form" action="ratemovies.php" method="post">
-    		<input id = "search_box" name = "search_box" placeholder ="Type Search Query Here" type="text" autofocus/>
+
+		<?php
+		 if(isset($_POST['btn']))
+		 {
+		 echo '<input id = search_box name = search_box type=text value="'.$_POST['search_box'].'">';
+		 echo "</input>";
+		 }
+
+		 else
+		 {
+		 	echo "<input id = 'search_box' name = 'search_box' placeholder ='Type Search Query Here' type='text' autofocus/>";
+		 }
+		?>
+
+    		<!--<input id = "search_box" name = "search_box" placeholder ="Type Search Query Here" type="text" autofocus/>-->
     		 <input id = "search-icon" value="Submit" type="image" name="btn" src="search-icon.png"/>
     	<br>
     	          
@@ -58,6 +72,7 @@ if(empty($_SESSION['userid'])){
 		{	
 			if($_POST['search_type']=='Movie')
 			{	
+				//echo $_POST['search_box'];
 				echo '<table align="center" border="1"><tr><td style="text-align:center;"><b>Movie Name</b></td><td><b>Average Rating</b></td>
 				<td><b>Number of Ratings</b></td></tr>';
 
